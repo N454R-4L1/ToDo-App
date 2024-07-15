@@ -1,6 +1,7 @@
 [build]
   command = "python -m flask run"
   publish = "."
+  environment = { FLASK_ENV = "production" }
 
 [dev]
   command = "python -m flask run"
