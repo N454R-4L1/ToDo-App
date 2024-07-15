@@ -1,0 +1,7 @@
+[build]
+  command = "python -m flask run"
+  publish = "."
+
+[dev]
+  command = "python -m flask run"
+  port = 8080
