@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+    <div class="container">
+        <a class="navbar-brand" href="#">ToDo App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{url_for('hello')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('about')}}">About</a>
+                </li>
+            </ul>
+            <form class="d-flex" action="/search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="q">
+                <button class="btn btn-outline-success" type="submit" value="Search">Search</button>
+            </form>
+            <div id="search-results"></div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    $(document).ready(function () {
+        $('#search-form').submit(function (event) {
+            event.preventDefault();
+            var searchQuery = $('#search-input').val();
+            $.ajax({
+                type: 'GET',
+                url: '/search',
+                data: { q: searchQuery },
+                success: function (data) {
+                    var results = '';
+                    if (data.length > 0) {
+                        results = '<ul>';
+                        data.forEach(function (item) {
+                            results += '<li><a href="/todo/' + item.id + '">' + item.title + '</a></li>';
+                        });
+                        results += '</ul>';
+                    } else {
+                        results = '<p>No results found.</p>';
+                    }
+                    $('#search-results').html(results);
+                }
+            });
+        });
+    });
+</script>

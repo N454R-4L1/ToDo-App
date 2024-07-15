@@ -1,0 +1,20 @@
+# Python files
+__pycache__/
+*.pyc
+
+# SQLite database file
+sqlite.db
+
+# Virtual environment files
+venv/
+env/
+
+# IDE files
+.vscode/
+.pydev/
+
+# Other files
+*.log
+*.tmp
+*.swp
+.DS_Store

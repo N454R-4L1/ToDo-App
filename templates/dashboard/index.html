@@ -1,0 +1,88 @@
+{% extends 'partials/base.html' %}
+{% block title %} Home {% endblock title %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header">Statistics</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h6>Total</h6>
+                  <p class="text-center">{{total_todo}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h6>Completed</h6>
+                  <p class="text-center">{{completed_todo}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card shadow">
+                <div class="card-body">
+                  <h6>Remaining</h6>
+                  <p class="text-center">{{remaining_todo}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header">ToDo</div>
+        <div class="card-body">
+          <form action="/add" method="POST">
+            <label for="">Title</label>
+            <input class="form-control my-2 " type="text" name="title" placeholder="Add your Task">
+            <label for="">Description</label>
+            <textarea class="form-control my-2" name="description" placeholder="Add your Description"></textarea>
+            <input class="btn btn-primary mt-2" type="submit" value="Add">
+          </form>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if total_todo == 0 %}
+
+  <marquee class="mt-3 display-3" behavior="" direction="">Add Your Task, Get Productive!!</marquee>
+
+  {% else %}
+  {% for todo in todo_list %}
+  <div class="border-start border-5 my-3 shadow">
+    <div class="card-body">
+      <h5>{{loop.index}} | {{todo.title}} </h5>
+      <p class="mx-3">{{todo.description}}</p>
+      <span
+        class="badge {% if todo.complete %}bg-success border border-dark {% else %}bg-warning border border-dark {% endif %} mx-1 shadow ">
+        {% if todo.complete %}
+        <a href="/toggle/{{todo.id}}" class="text-decoration-none text-white">Finished</a>
+        {% else %}
+        <a href="/toggle/{{todo.id}}" class="text-decoration-none text-white ">On Going</a>
+        {% endif %}
+      </span>
+      <a class="btn btn-secondary btn-sm" href="/update/{{todo.id}}">Edit</a>
+      <a class="btn btn-danger btn-sm" href="/delete/{{todo.id}}">Delete</a>
+      {% if todo.update %}
+      <form action="/update/{{todo.id}}" method="POST">
+        <input type="text" name="title" value="{{todo.title}}">
+        <textarea name="description">{{todo.description}}</textarea>
+        <input type="submit" value="Update">
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+
+{% endblock content %}
